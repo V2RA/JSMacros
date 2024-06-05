@@ -31,7 +31,7 @@ JsMacros.on("PlayerLeave", JavaWrapper.methodToJava((event, context) => {
 }));
 
 JsMacros.on("JoinServer", JavaWrapper.methodToJava((event, context) => {
-    Time.sleep(7500)
+    Time.sleep(2500)
     GlobalVars.putInt("coolDown", 0)
 }))
 
