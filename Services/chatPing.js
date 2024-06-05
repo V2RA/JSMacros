@@ -4,7 +4,7 @@ JsMacros.on("RecvMessage", JavaWrapper.methodToJava((event, context) => {
     const pingNames = ["v2ra", "jay", "snake"];
 
     const fullMessage = event.text.getStringStripFormatting();
-    const match = fullMessage.match(/^<([^>]+)>\s*(.*)/);
+    const match = fullMessage.match(/^(?:\[\*{1,3}\])?\s*<([^>]+)>\s*(.*)/);
     
     if (match) {
         const playerName = match[1];
