@@ -1,9 +1,11 @@
+const serviceMgr = JsMacros.getServiceManager()
 const d2d = Hud.createDraw2D()
-let tpsmeter;
+
+let lastPosition = [0, 0, 0];
 
 d2d.setOnInit(JavaWrapper.methodToJava(() => {
-    tpsmeter = d2d.addText("rerun", 520, d2d.getHeight() - 355, 0xFFFFFF, true);
-    lightmeter = d2d.addText("rerun", 520, d2d.getHeight() - 345, 0xFFFFFF, true);
+    worldDay = d2d.addText("rerun", 180, d2d.getHeight() - 505, 0xFFFFFF, true);
+    lightmeter = d2d.addText("rerun", 180, d2d.getHeight() - 495, 0xFFFFFF, true);
 }));
 
 const ticklistener = JsMacros.on("Tick", JavaWrapper.methodToJava(() => {
@@ -11,7 +13,9 @@ const ticklistener = JsMacros.on("Tick", JavaWrapper.methodToJava(() => {
     let tra = Math.floor(World.getTimeOfDay() / 24000)
     let tar = World.getBlockLight(Math.floor(player.getPos().x), Math.floor(player.getPos().y), Math.floor(player.getPos().z))
     World.getBlock(0, -1, 0)
-    tpsmeter?.setText(`\u00A7bWorld day: \u00A73${tra}`);
+    
+    worldDay?.setText(`\u00A7bWorld day: \u00A73${tra}`);
+    
     lightmeter?.setText(`\u00A7bBlock light: \u00A73${tar}`)
 }));
 

@@ -2,23 +2,23 @@ JsMacros.on("PlayerJoin", JavaWrapper.methodToJava((event, context) => {
     const playerName = event.player.getName()
 
     const pingForPlayers = [
-        "DrisBigMan",
-        "Thomsk10"
+        "DrisBigMan"
     ]
 
     if (GlobalVars.getInt("coolDown") === 0) {
         if (pingForPlayers.includes(playerName)) {
-            Chat.actionbar("\u00a73\u00a7o" + playerName.toString() + " \u00a7b\u00a7ohas joined")
             World.playSound("minecraft:entity.experience_orb.pickup", 1);
         }
 
+        Time.sleep(Math.floor(Math.random() * 3) * 1000);
+
         if (playerName === "DrisBigMan") {
-            Chat.say("baldy")
-        }
+            Chat.say("wb baldy")
+        } 
+        
     }
 
     Chat.log("\u00a73\u00a7o" + playerName.toString() + " \u00a7b\u00a7ohas joined")
-
     context.releaseLock();
 }));
 
@@ -31,7 +31,7 @@ JsMacros.on("PlayerLeave", JavaWrapper.methodToJava((event, context) => {
 }));
 
 JsMacros.on("JoinServer", JavaWrapper.methodToJava((event, context) => {
-    Time.sleep(2500)
+    Time.sleep(5000)
     GlobalVars.putInt("coolDown", 0)
 }))
 
