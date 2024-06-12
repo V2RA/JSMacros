@@ -56,105 +56,145 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
         }
     }
 
-    const cmds = {
-        "autism": () => {
-            Chat.say("/nickname add &b&ldmu kid")
-            exit()
-        },
+    const cmds = [
 
-        "drop": () => {
-            const serviceMgr = JsMacros.getServiceManager()
-            const serviceName = "dropJunk"
-
-            const status = serviceMgr.status(serviceName)
-
-            if (GlobalVars.getInt("dropJunk") == 1) {
-                GlobalVars.putInt("dropJunk", 0)
-                Chat.actionbar("\u00A7bStopped \u00A73Dropping")
-            } else {
-                GlobalVars.putInt("dropJunk", 1)
-                Chat.actionbar("\u00A7bStarted \u00A73Dropping")
-            }
-
-
-            exit()
-        },
-
-        "dmg": () => {
-            if (GlobalVars.getInt("Damage") == 1) {
-                GlobalVars.putInt("Damage", 0)
-                Chat.actionbar("\u00A7bDamage Toggled: \u00A73Off")
-            } else {
-                GlobalVars.putInt("Damage", 1)
-                Chat.actionbar("\u00A7bDamage Toggled: \u00A73On")
-            }
-
-            exit()
-        },
-
-        "dnd": () => {
-            if (GlobalVars.getInt("DND") == 1) {
-                GlobalVars.putInt("DND", 0)
-                Chat.actionbar("\u00A7bDND Toggled: \u00A73Off")
-            } else {
-                GlobalVars.putInt("DND", 1)
-                Chat.actionbar("\u00A7bDND Toggled: \u00A73On")
-            }
-
-            exit()
-        },
-
-        "tl": () => {
-            if (args[0] !== undefined) {
-                let nick = nicks[args[0]]
-                let title = titles[args[0]]
-
-                if (args[1] === "true") {
-                    Chat.log(`\u00A7bNickname would be: \u00A73${textHandler(nick, "\u00A7")}`)
-                    Chat.log(`\u00A7bTitle would be: \u00A73${textHandler(title, "\u00A7")}`)
+        {
+            name: "cchelp",
+            description: "List of commands",
+            usage: "help <command>",
+            execute: () => {
+                if (args.length == 0) {
+                    let cmdArray = [];
+                    Chat.log("\u00A7bList of commands:");
+                    Chat.log("\u00A7b------------------");
+    
+                    for (let i = 0; i < cmds.length; i++) {
+                        cmdArray.push(cmds[i].name);
+                    }
+    
+                    for (let i = 0; i < cmdArray.length; i++) {
+                        Chat.log("\u00A73" + cmdArray[i]);
+                    }
+    
+                    Chat.log("\u00A7b------------------");
                 } else {
-                    if (args[0] === "list") {
-                        for (let i = 0; i < titles.length; i++) {
-                            Chat.log(`\u00A7b${i}: ${textHandler(titles[i], "\u00A7")} \u00A7r| ${textHandler(nicks[i], "\u00A7")}`)
-                        }
-                    } else {
-                        Chat.say(`/nickname add ${nick}`);
-                        if (title == "") {
-                            Chat.say(`/set-title remove e`);
-                        } else {
-                            Chat.say(`/set-title add ${title}`);
+                    for (let i = 0; i < cmds.length; i++) {
+                        if (args[0] === cmds[i].name) {
+                            Chat.log("\u00A7b------------------");
+                            Chat.log("\u00A73" + cmds[i].name + "\u00A7b: " + cmds[i].description);
+                            Chat.log("\u00A73Usage: \u00A7b" + cmds[i].usage);
+                            Chat.log("\u00A7b------------------");
                         }
                     }
                 }
-            } else {
-                Chat.log(`\u00A7bTotal number of titles: ${titles.length}`)
             }
-
-            exit()
         },
 
-        "rld": () => {
-            // alias reload
-            Chat.log(`\u00A7bReloading scripts`)
-            JsMacros.runScript("reloadServices.js")
-
-            exit()
+        {
+            name: "autism",
+            description: "autism",
+            usage: "autism",
+            execute: () => {
+                Chat.say("/nickname add &b&ldmu kid")
+            }
+        },
+ 
+        {
+            name: "rld",
+            description: "Runs the reload script; reloads all service scripts",
+            usage: "rld",
+            execute: () => {
+                Chat.log(`\u00A7bReloading scripts`)
+                JsMacros.runScript("reloadServices.js")
+            }
         },
 
-        "afk": () => {
-            if (GlobalVars.getInt("AFK") == 1) {
-                GlobalVars.putInt("AFK", 0)
-                Chat.actionbar(`\u00A7bAFK: \u00A73disabled`)
-            } else {
-                GlobalVars.putInt("AFK", 1)
-                Chat.actionbar(`\u00A7bAFK: \u00A73enabled`)
+        {
+            name: "dbg",
+            description: "Toggles debug mode",
+            usage: "dbg",
+            execute: () => {
+                if (GlobalVars.getInt("debug") == 1) {
+                    GlobalVars.putInt("debug", 0)
+                    Chat.actionbar(`\u00A7bDebug: \u00A73disabled`)
+                } else {
+                    GlobalVars.putInt("debug", 1)
+                    Chat.actionbar(`\u00A7bDebug: \u00A73enabled`)
+                }
             }
+        },
+
+        {
+            name: "afk",
+            description: "Toggles AFK mode",
+            usage: "afk",
+            execute: () => {
+                if (GlobalVars.getInt("AFK") == 1) {
+                    GlobalVars.putInt("AFK", 0)
+                    Chat.actionbar(`\u00A7bAFK: \u00A73disabled`)
+                } else {
+                    GlobalVars.putInt("AFK", 1)
+                    Chat.actionbar(`\u00A7bAFK: \u00A73enabled`)
+                }
+            }
+        },
+
+        {
+            name: "drop",
+            description: "Drop junk",
+            usage: "drop",
+            execute: () => {
+                const serviceMgr = JsMacros.getServiceManager()
+                const serviceName = "dropJunk"
+
+                const status = serviceMgr.status(serviceName)
+
+                if (GlobalVars.getInt("dropJunk") == 1) {
+                    GlobalVars.putInt("dropJunk", 0)
+                    Chat.actionbar("\u00A7bStopped \u00A73Dropping")
+                } else {
+                    GlobalVars.putInt("dropJunk", 1)
+                    Chat.actionbar("\u00A7bStarted \u00A73Dropping")
+                }
+            }
+        },
+
+        {
+            name: "dmg",
+            description: "toggles onDamage scripts",
+            usage: "dmg",
+            execute: () => {
+                if (GlobalVars.getInt("Damage") == 1) {
+                    GlobalVars.putInt("Damage", 0)
+                    Chat.actionbar("\u00A7bDamage Toggled: \u00A73Off")
+                } else {
+                    GlobalVars.putInt("Damage", 1)
+                    Chat.actionbar("\u00A7bDamage Toggled: \u00A73On")
+                }
+            }
+        },
+
+        {
+            name: "dnd",
+            description: "toggles dnd",
+            usage: "dnd",
+            execute: () => {
+                if (GlobalVars.getInt("DND") == 1) {
+                    GlobalVars.putInt("DND", 0)
+                    Chat.actionbar("\u00A7bDND Toggled: \u00A73Off")
+                } else {
+                    GlobalVars.putInt("DND", 1)
+                    Chat.actionbar("\u00A7bDND Toggled: \u00A73On")
+                }
+            }
+        },
+    ]
+
+    for (const command of cmds) {
+        if (command.name == cmd) {
+            command.execute()
 
             exit()
         }
-    }
-
-    if (cmd in cmds) {
-        cmds[cmd]()
     }
 }))
