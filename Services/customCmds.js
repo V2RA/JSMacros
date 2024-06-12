@@ -56,7 +56,7 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
             } else {
                 if (args[0] === "list") {
                     for (let i = 0; i < titles.length; i++) {
-                        Chat.log(`\u00A7b${i}: ${textHandler(titles[i], "\u00A7")} | ${textHandler(nicks[i], "\u00A7")}`)
+                        Chat.log(`\u00A7b${i}: ${textHandler(titles[i], "\u00A7")} \u00A7r| ${textHandler(nicks[i], "\u00A7")}`)
                     }
                 } else {
                     Chat.say(`/nickname add ${nick}`);
