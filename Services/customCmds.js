@@ -10,6 +10,18 @@ let titles = [
     "&3title2",
 ];
 
+function textHandler(text, symbol) {
+    if (symbol) {
+        return text.replace(/&/g, symbol);
+    } else {
+        return text.replace(/&/g, "\\u00A7");
+    }
+}
+
+function c(t) {
+    return `\u00A7${t}`;
+}
+
 JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
     const plrs = World.getPlayers()
     const cmd = event.message.toString().split(" ")[0].substring(1)
@@ -39,12 +51,12 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
             let title = titles[args[0]]
 
             if (args[1] === "true") {
-                Chat.log(`\u00A7bNickname would be: \u00A73${nick}`)
-                Chat.log(`\u00A7bTitle would be: \u00A73${title}`)
+                Chat.log(`\u00A7bNickname would be: \u00A73${textHandler(nick, "\u00A7")}`)
+                Chat.log(`\u00A7bTitle would be: \u00A73${textHandler(title, "\u00A7")}`)
             } else {
                 if (args[0] === "list") {
                     for (let i = 0; i < titles.length; i++) {
-                        Chat.log(`\u00A7b${i}: ${titles[i]} ${nicks[i]}`)
+                        Chat.log(`\u00A7b${i}: ${textHandler(titles[i], "\u00A7")} ${textHandler(nicks[i], "\u00A7")}`)
                     }
                 } else {
                     Chat.say(`/nickname add ${nick}`);
