@@ -50,12 +50,6 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
         for (player of playerList) {
             if (plrName.toLowerCase() === "fat") {
                 return "TheCyberium"
-            } else if (plrName.toLowerCase() === "french") {
-                return "Conquerors_"
-            } else if (plrName.toLowerCase() === "twink") {
-                return "Jayson_json"
-            } else if (player.toLowerCase() === "bitch") {
-                return "wheezebob"
             } else if (player.toLowerCase().includes(plrName.toLowerCase())) {
                 return player
             }
