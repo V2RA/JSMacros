@@ -2,10 +2,18 @@ const serviceMgr = JsMacros.getServiceManager()
 const d2d = Hud.createDraw2D()
 
 let lastPosition = [0, 0, 0];
+let offset = d2d.getHeight()
+
+function setupD2D(index) {
+    // X position
+    let x = 180
+    
+    return d2d.addText("rerun", x, d2d.getHeight() - (offset - (index * 10)), 0xFFFFFF, true);
+}
 
 d2d.setOnInit(JavaWrapper.methodToJava(() => {
-    worldDay = d2d.addText("rerun", 180, d2d.getHeight() - 505, 0xFFFFFF, true);
-    lightmeter = d2d.addText("rerun", 180, d2d.getHeight() - 495, 0xFFFFFF, true);
+    worldDay = setupD2D(1);
+    lightmeter = setupD2D(2);
 }));
 
 const ticklistener = JsMacros.on("Tick", JavaWrapper.methodToJava(() => {
