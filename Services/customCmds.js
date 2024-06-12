@@ -1,27 +1,13 @@
 const address = World.getCurrentServerAddress().toString()
 
 let nicks = [
-    "&3&lThe&b&lJay",
-    "&3&lThe&b&lJay",
-    "&3&lThe&b&lJay",
-    "&6&lSentinel &b&lJay",
-    "&a&lSnake",
-    "&a&lSnake",
-    "&a&lSnake",
-    "&b&ljayleybops",
-    "&2&lSold The World"
+    "nickname1",
+    "&3nickname2",
 ];
 
 let titles = [
-    "&8&l[B&6&lM&8&l]",
-    "&3&l[&b&lDD&3&l]",
-    "&8&l[&4&lU.N.I.T&8&l]",
-    "&8&l[&7&lBoS&8&l]",
-    "&8&l[B&6&lM&8&l] &2&lPunished",
-    "&3&l[&b&lDD&3&l] &2&lPunished",
-    "&8&l[&7&lBoS&8&l] &2&lPunished",
-    "&8&l[B&6&lM&8&l]",
-    "&a&lThe Man Who"
+    "title1",
+    "&3title2",
 ];
 
 JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
