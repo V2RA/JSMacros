@@ -27,11 +27,21 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
     const cmd = event.message.toString().split(" ")[0].substring(1)
     const args = event.message.toString().split(" ").slice(1)
 
-    if (!event.message.toString().startsWith("/")) {
+    if (!event.message.toString().startsWith("/") && !event.message.toString().startsWith(".")) {
         return;
+    } else {
+        commandType = event.message.toString().startsWith("/") ? "/" : "."
     }
 
-    // event.message = null
+    function exit() {
+        if (commandType === ".") {
+            
+        } else if (commandType === "/") {
+            event.message = null
+        }
+    }
+
+    // exit()
     // ^^^^^^ must go in every command
 
     let playerList = []
@@ -78,7 +88,7 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
             Chat.log(`\u00A7bTotal number of titles: ${titles.length}`)
         }
 
-        event.message = null
+        exit()
     }
 
     if (cmd === "drop") {
@@ -95,7 +105,7 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
             Chat.actionbar("\u00A7bStarted \u00A73Dropping")
         }
 
-        event.message = null
+        exit()
     }
 
     if (cmd === "dmg") {
@@ -107,7 +117,7 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
             Chat.actionbar("\u00A7bDamage Toggled: \u00A73On")
         }
 
-        event.message = null
+        exit()
     }
 
     if (cmd === "dnd") {
@@ -119,14 +129,14 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
             Chat.actionbar("\u00A7bDND Toggled: \u00A73On")
         }
 
-        event.message = null
+        exit()
     }
 
     if (cmd === "rld" || cmd === "reload") {
         Chat.log(`\u00A7bReloading scripts`)
         JsMacros.runScript("reloadServices.js")
 
-        event.message = null
+        exit()
     }
 
     if (cmd === "dbg") {
@@ -138,7 +148,7 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
             Chat.log(`\u00A7bDebug: \u00A73enabled`)
         }
 
-        event.message = null
+        exit()
     }
 
     if (cmd === "afk") {
@@ -150,6 +160,6 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
             Chat.log(`\u00A7bAFK: \u00A73enabled`)
         }
 
-        event.message = null
+        exit()
     }
 }))
