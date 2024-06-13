@@ -59,7 +59,7 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
     const cmds = [
 
         {
-            name: "cchelp",
+            name: "chelp",
             description: "List of commands",
             usage: "help <command>",
             execute: () => {
@@ -67,15 +67,15 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
                     let cmdArray = [];
                     Chat.log("\u00A7bList of commands:");
                     Chat.log("\u00A7b------------------");
-    
+
                     for (let i = 0; i < cmds.length; i++) {
-                        cmdArray.push(cmds[i].name);
+                        cmdArray.push(`\u00A73${i + 1} | \u00A7b${cmds[i].name}`);
                     }
-    
+
                     for (let i = 0; i < cmdArray.length; i++) {
                         Chat.log("\u00A73" + cmdArray[i]);
                     }
-    
+
                     Chat.log("\u00A7b------------------");
                 } else {
                     for (let i = 0; i < cmds.length; i++) {
@@ -83,6 +83,7 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
                             Chat.log("\u00A7b------------------");
                             Chat.log("\u00A73" + cmds[i].name + "\u00A7b: " + cmds[i].description);
                             Chat.log("\u00A73Usage: \u00A7b" + cmds[i].usage);
+                            Chat.log("\u00A73Aliases: \u00A7b" + cmds[i]?.aliases?.join(", "));
                             Chat.log("\u00A7b------------------");
                         }
                     }
@@ -114,13 +115,8 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
             description: "Toggles debug mode",
             usage: "dbg",
             execute: () => {
-                if (GlobalVars.getInt("debug") == 1) {
-                    GlobalVars.putInt("debug", 0)
-                    Chat.actionbar(`\u00A7bDebug: \u00A73disabled`)
-                } else {
-                    GlobalVars.putInt("debug", 1)
-                    Chat.actionbar(`\u00A7bDebug: \u00A73enabled`)
-                }
+                GlobalVars.putInt("debug", GlobalVars.getInt("debug") == 1 ? 0 : 1)
+                Chat.actionbar(`\u00A7bDebug: \u00A73${GlobalVars.getInt("debug") == 1 ? "enabled" : "disabled"}`)
             }
         },
 
@@ -129,13 +125,8 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
             description: "Toggles AFK mode",
             usage: "afk",
             execute: () => {
-                if (GlobalVars.getInt("AFK") == 1) {
-                    GlobalVars.putInt("AFK", 0)
-                    Chat.actionbar(`\u00A7bAFK: \u00A73disabled`)
-                } else {
-                    GlobalVars.putInt("AFK", 1)
-                    Chat.actionbar(`\u00A7bAFK: \u00A73enabled`)
-                }
+                GlobalVars.putInt("AFK", GlobalVars.getInt("AFK") == 1 ? 0 : 1)
+                Chat.actionbar(`\u00A7bAFK: \u00A73${GlobalVars.getInt("AFK") == 1 ? "enabled" : "disabled"}`)
             }
         },
 
@@ -144,18 +135,8 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
             description: "Drop junk",
             usage: "drop",
             execute: () => {
-                const serviceMgr = JsMacros.getServiceManager()
-                const serviceName = "dropJunk"
-
-                const status = serviceMgr.status(serviceName)
-
-                if (GlobalVars.getInt("dropJunk") == 1) {
-                    GlobalVars.putInt("dropJunk", 0)
-                    Chat.actionbar("\u00A7bStopped \u00A73Dropping")
-                } else {
-                    GlobalVars.putInt("dropJunk", 1)
-                    Chat.actionbar("\u00A7bStarted \u00A73Dropping")
-                }
+                GlobalVars.putInt("dropJunk", GlobalVars.getInt("dropJunk") == 1 ? 0 : 1)
+                Chat.actionbar(`\u00A7bDropJunk: \u00A73${GlobalVars.getInt("dropJunk") == 1 ? "enabled" : "disabled"}`)
             }
         },
 
@@ -164,13 +145,8 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
             description: "toggles onDamage scripts",
             usage: "dmg",
             execute: () => {
-                if (GlobalVars.getInt("Damage") == 1) {
-                    GlobalVars.putInt("Damage", 0)
-                    Chat.actionbar("\u00A7bDamage Toggled: \u00A73Off")
-                } else {
-                    GlobalVars.putInt("Damage", 1)
-                    Chat.actionbar("\u00A7bDamage Toggled: \u00A73On")
-                }
+                GlobalVars.putInt("Damage", GlobalVars.getInt("Damage") == 1 ? 0 : 1)
+                Chat.actionbar(`\u00A7bDamage: \u00A73${GlobalVars.getInt("Damage") == 1 ? "enabled" : "disabled"}`)
             }
         },
 
@@ -179,15 +155,27 @@ JsMacros.on("SendMessage", JavaWrapper.methodToJava((event, context) => {
             description: "toggles dnd",
             usage: "dnd",
             execute: () => {
-                if (GlobalVars.getInt("DND") == 1) {
-                    GlobalVars.putInt("DND", 0)
-                    Chat.actionbar("\u00A7bDND Toggled: \u00A73Off")
-                } else {
-                    GlobalVars.putInt("DND", 1)
-                    Chat.actionbar("\u00A7bDND Toggled: \u00A73On")
-                }
+                GlobalVars.putInt("DND", GlobalVars.getInt("DND") == 1 ? 0 : 1)
+                Chat.actionbar(`\u00A7bDND: \u00A73${GlobalVars.getInt("DND") == 1 ? "enabled" : "disabled"}`)
             }
         },
+
+                {
+            name: "onlineplayers",
+            description: "List of online players",
+            usage: "onlineplayers",
+            aliases: ["oplrs"],
+            execute: () => {
+                let plrs = World.getPlayers()
+                let plrList = []
+
+                for (i of plrs) {
+                    plrList.push(i.getName())
+                }
+
+                Chat.log(`\u00A7b(\u00A73${plrList.length}\u00A7b) Online players: \u00A73${plrList.join("  |  ")}`)
+            }
+        }
     ]
 
     for (const command of cmds) {
