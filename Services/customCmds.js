@@ -13,30 +13,9 @@ let titles = [
 
 function textHandler(text, symbol) {
     if (symbol) {
-        return text.replace(/&/g, symbol);
+        return text.replaceAll(/&/g, symbol);
     } else {
-        return text.replace(/&/g, "\\u00A7");
-    }
-}
-
-function getPlayers() {
-    let plrs = World.getPlayers()
-    let plrList = []
-
-    for (i of plrs) {
-        plrList.push(i.getName())
-    }
-
-    return plrList
-}
-
-function getPlayer(plrName) {
-    for (player of getPlayers()) {
-        if (plrName.toLowerCase() === "fat") {
-            return "TheCyberium"
-        } else if (player.toLowerCase().includes(plrName.toLowerCase())) {
-            return player
-        }
+        return text.replaceAll(/&/g, "\\u00A7");
     }
 }
 
@@ -47,8 +26,23 @@ function raytrace(distance) {
     return `${blockPos.getX()} ${blockPos.getY()} ${blockPos.getZ()}`
 }
 
-function range(start, end) {
-    return Array(end - start + 1).fill().map((_, idx) => start + idx)
+function getPlayer(plrName, getAll) {
+    let plrs = [];
+    for (plr of World.getPlayers()) {
+        plrs.push(plr.getName())
+    }
+
+    if (getAll) {
+        return plrs
+    }
+
+    for (player of plrs) {
+        if (plrName.toLowerCase() === "fat") {
+            return "TheCyberium"
+        } else if (player.toLowerCase().includes(plrName.toLowerCase())) {
+            return player
+        }
+    }
 }
 
 // --------======={ Toggles } ======-------- \\
