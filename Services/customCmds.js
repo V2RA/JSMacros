@@ -40,11 +40,28 @@ function getPlayer(plrName) {
     }
 }
 
+function raytrace(distance) {
+    if (!distance) distance = 10;
+
+    const blockPos = Player.rayTraceBlock(distance, false)
+    return `${blockPos.getX()} ${blockPos.getY()} ${blockPos.getZ()}`
+}
+
 function range(start, end) {
     return Array(end - start + 1).fill().map((_, idx) => start + idx)
 }
 
+// --------======={ Toggles } ======-------- \\
 
+Chat.createCommandBuilder("toggle")
+    .wordArg("type")
+    .suggestMatching("dropJunk", "Damage", "DND", "tpEffects", "AFK")
+    .executes(JavaWrapper.methodToJava(c => {
+        GlobalVars.putInt(c.getArg("type"), GlobalVars.getInt(c.getArg("type")) == 1 ? 0 : 1)
+        Chat.actionbar(`\u00A7b${c.getArg("type")} Toggled: \u00A73${GlobalVars.getInt(c.getArg("type")) == 1 ? "enabled" : "disabled"}`)
+    })).register();
+
+/*
 Chat.createCommandBuilder("drop")
     .executes(JavaWrapper.methodToJava(c => {
         GlobalVars.putInt("dropJunk", GlobalVars.getInt("dropJunk") == 1 ? 0 : 1)
@@ -74,17 +91,56 @@ Chat.createCommandBuilder("afk")
         GlobalVars.putInt("AFK", GlobalVars.getInt("AFK") == 1 ? 0 : 1)
         Chat.actionbar(`\u00A7bAFK Toggled: \u00A73${GlobalVars.getInt("AFK") == 1 ? "enabled" : "disabled"}`)
     })).register()
+*/
+// --------======={ Gamemodes } ======-------- \\
 
+Chat.createCommandBuilder("gmc")
+    .executes(JavaWrapper.methodToJava(c => {
+        Chat.say(`/gamemode creative`)
+    }))
+    .quotedStringArg("player")
+    .executes(JavaWrapper.methodToJava(c => {
+        Chat.say(`/gamemode creative ${getPlayer(c.getArg("player"))}`)
+    })).register()
 
+Chat.createCommandBuilder("gms")
+    .executes(JavaWrapper.methodToJava(c => {
+        Chat.say(`/gamemode survival`)
+    }))
+    .quotedStringArg("player")
+    .executes(JavaWrapper.methodToJava(c => {
+        Chat.say(`/gamemode survival ${getPlayer(c.getArg("player"))}`)
+    })).register()
+
+Chat.createCommandBuilder("gmsp")
+    .executes(JavaWrapper.methodToJava(c => {
+        Chat.say(`/gamemode spectator`)
+    }))
+    .quotedStringArg("player")
+    .executes(JavaWrapper.methodToJava(c => {
+        Chat.say(`/gamemode spectator ${getPlayer(c.getArg("player"))}`)
+    })).register()
+
+Chat.createCommandBuilder("gma")
+    .executes(JavaWrapper.methodToJava(c => {
+        Chat.say(`/gamemode adventure`)
+    }))
+    .quotedStringArg("player")
+    .executes(JavaWrapper.methodToJava(c => {
+        Chat.say(`/gamemode adventure ${getPlayer(c.getArg("player"))}`)
+    })).register()
+
+/*
 // --------======={ Creating your own commands } ======-------- \\
 
-// Chat.createCommandBuilder("COMMANDNAME") -- Name of the command
-//     .intArg("name")
-//     .greedyStringArg("name")
-//     .quotedStringArg("name")
-//     .executes(JavaWrapper.methodToJava(c => { 
-//         -- What to do when the command is executed
-//     })).register()
+ Chat.createCommandBuilder("COMMANDNAME") -- Name of the command
+     .intArg("name")
+     .greedyStringArg("name")
+     .quotedStringArg("name")
+     .executes(JavaWrapper.methodToJava(c => { 
+         -- What to do when the command is executed
+     })).register()
 
-// https://jsmacros.wagyourtail.xyz/?/1.8.0/xyz/wagyourtail/jsmacros/client/api/classes/CommandBuilder.html
-// This link contains all arguments for the command structure
+https://jsmacros.wagyourtail.xyz/?/1.8.0/xyz/wagyourtail/jsmacros/client/api/classes/CommandBuilder.html
+This link contains all arguments for the command structure
+*/
