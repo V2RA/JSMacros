@@ -1,5 +1,6 @@
 const serviceMgr = JsMacros.getServiceManager()
 const address = World.getCurrentServerAddress().toString()
+const m = require("./SharedFunctions.js")
 
 let nicks = [
     "nickname1",
