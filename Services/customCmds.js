@@ -128,7 +128,7 @@ Chat.createCommandBuilder("titlelist")
 
                 Chat.log(`\u00A7bTitles:`)
                 for (title of Object.keys(settingsFile[address].Titles)) {
-                    Chat.log(`${title} = ${m.textHandler(settingsFile[address].Titles[title].title, "\u00A7")} | ${m.textHandler(settingsFile[address].Titles[title].nickname, "\u00A7")}`)
+                    Chat.log(`${title} = ${m.textHandler(settingsFile[address].Titles[title].title, "\u00A7")} \u00A7b| ${m.textHandler(settingsFile[address].Titles[title].nickname, "\u00A7")}`)
                 }
             } else return Chat.log(`\u00A7cInvalid arguments`)
         } else {
@@ -152,7 +152,7 @@ Chat.createCommandBuilder("titlelist")
                 Chat.say(`${settingsFile[address].Settings.nicknameaddcmd.replaceAll("{val}", settingsFile[address].Titles[c.getArg("value/nickname")].nickname)}`)
             } else if (c.getArg("key") == "remove") {
                 if (settingsFile[address].Titles[c.getArg("value/nickname")]) {
-                    Chat.log(m.textHandler(`\u00A7bRemoved \u00A73${settingsFile[address].Titles[c.getArg("value/nickname")].title} | ${settingsFile[address].Titles[c.getArg("value/nickname")].nickname} \u00A7bfrom the list`, "\u00A7"));
+                    Chat.log(m.textHandler(`\u00A7bRemoved \u00A73${settingsFile[address].Titles[c.getArg("value/nickname")].title} \u00A7b| ${settingsFile[address].Titles[c.getArg("value/nickname")].nickname} \u00A7bfrom the list`, "\u00A7"));
                     settingsFile[address].Titles.splice(c.getArg("value/nickname"), 1)
                     m.StorageFile("save", settingsFile)
                 }
