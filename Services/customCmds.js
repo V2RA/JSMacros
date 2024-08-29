@@ -6,16 +6,6 @@ m.init()
 
 StorageFile = m.StorageFile
 
-let nicks = [
-    "nickname1",
-    "&3nickname2",
-];
-
-let titles = [
-    "title1",
-    "&3title2",
-];
-
 function textHandler(text, symbol) {
     if (symbol) {
         return text.replaceAll(/&/g, symbol);
