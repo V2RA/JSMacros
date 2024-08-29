@@ -1,33 +1,3 @@
-const PathFile = `Storage.json`
-const address = World.getCurrentServerAddress().toString();
-let SettingsFile;
-
-if (FS.exists(PathFile)) {
-    SettingsFile = FS.open(PathFile).read()
-    SettingsFile = JSON.parse(SettingsFile)
-} else {
-    Chat.log("Settings file does not exist");
-}
-
-if (SettingsFile != null && !SettingsFile[address]) {
-    if (address.includes("local")) { } else {
-        Chat.log("\u00A7cNo server settings file found")
-        SettingsFile[address] = { Waypoints: [], Settings: {} }
-
-        FS.open(PathFile).write(JSON.stringify(SettingsFile, null, 4))
-    }
-}
-
-if (SettingsFile != null && SettingsFile[address]) {
-    if (!SettingsFile[address].Settings && !address.includes("local")) {
-        Chat.log("\u00A7cNo server settings found")
-        SettingsFile[address].Settings = {}
-
-        FS.open(PathFile).write(JSON.stringify(SettingsFile, null, 4))
-    }
-}
-
-// ^^^^^^^^^^ new ^^^^^^^^^^
 JsMacros.on("PlayerJoin", JavaWrapper.methodToJava((event, context) => {
     const playerName = event.player.getName()
 

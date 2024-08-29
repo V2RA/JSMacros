@@ -2,6 +2,8 @@ const serviceMgr = JsMacros.getServiceManager()
 const address = World.getCurrentServerAddress().toString()
 const m = require("./SharedFunctions.js")
 
+m.init()
+
 StorageFile = m.StorageFile
 
 let nicks = [
